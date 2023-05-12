@@ -25,3 +25,13 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+button {
+  border: 5px solid  ;
+  /* border-radius: 10px; */
+  border-image-slice: 1;
+  border: linear-gradient(to right, yellow, #C1C1C1, #2771DD);
+}
