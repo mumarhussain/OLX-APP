@@ -2,7 +2,7 @@ import Header from "../../../components/Header";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { addUser, editUser } from "../../../store/slice/Userslice";
+import { addUser, editUser, loginUser } from "../../../store/slice/Userslice";
 import Link from "next/link";
 
 function formsData() {
@@ -12,9 +12,7 @@ function formsData() {
   const userData = useSelector((state) =>
     state.user.dataForm.find((userData) => userData.id == queryId)
   );
-  const login = useSelector((state) => state.loginUser);
-
-  console.log(login);
+  const login = useSelector((state) =>state.user.loginUser);
   const id = userData ? userData.id : Math.floor(Math.random() * 1000000);
   const [details, setDetails] = useState();
 
@@ -49,7 +47,8 @@ function formsData() {
       details.address !== "" ||
       details.number !== "" ||
       details.image !== "" ||
-      details.id !== ""
+      details.id !== ""||
+      details.userId !== ""
     ) {
       if (userData) {
         dispatch(editUser(details));

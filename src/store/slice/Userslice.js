@@ -31,12 +31,13 @@ const userSlice = createSlice({
     },
     loginUser(state, action) {
       state.loginUser = action.payload
-      console.log(state.loginUser ,"umar");
+      // console.log(state.loginUser ,"login");
 
     },
     signUpUser(state, action) {
       state.userData.push(action.payload)
       state.loginUser = action.payload
+      // console.log(state.signUpUser, "signupUser");
     },
   },
 });

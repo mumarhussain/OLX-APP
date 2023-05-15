@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "@/store/slice/Userslice";
 
 export default function Login() {
-  const data = useSelector((state) => state.user.userData);
+  const data = useSelector((state) => state.user.loginUser);
   const [login, setLogin] = useState({
     email:"",
     password:""
@@ -17,15 +17,15 @@ export default function Login() {
   const router = useRouter();
 
   const handleClick = () => {
-    const user = data.find((user) => user.email === login.email && user.password === login.password);
+    const user = data&& data.email == login.email && data&&data.password == login.password;
     if (user) {
       dispatch(loginUser(user))
       router.push("/");
     } else {
       alert("Invalid email or password");
     }
-    console.log(login);
   };
+  console.log(data, "user");
 
   const handleChange = (event) => {
     const { name, value } = event.target;

@@ -23,7 +23,7 @@ export default function Signup() {
       dispatch(signUpUser(signup))
     }
   };
-  
+  console.log(signup, "signupData");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
