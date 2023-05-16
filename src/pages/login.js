@@ -8,24 +8,27 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "@/store/slice/Userslice";
 
 export default function Login() {
-  const data = useSelector((state) => state.user.loginUser);
+  const data = useSelector((state) => state.user.userData);
   const [login, setLogin] = useState({
-    email:"",
-    password:""
+    email: "",
+    password: "",
   });
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleClick = () => {
-    const user = data&& data.email == login.email && data&&data.password == login.password;
+    const user = data.find(
+      (signUpUser) =>
+        signUpUser.email == login.email && signUpUser.password == login.password
+    );
+
     if (user) {
-      dispatch(loginUser(user))
+      dispatch(loginUser(user));
       router.push("/");
     } else {
       alert("Invalid email or password");
     }
   };
-  console.log(data, "user");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,6 +37,7 @@ export default function Login() {
     });
   };
 
+ 
 
   return (
     <div>
@@ -78,15 +82,4 @@ export default function Login() {
   );
 }
 
-// const handleClick = () => {
-//   // for (let i = 0; i < data?.length; i++) {
-//     // const user = data[i];
-//     if (data.email === email && data.password === password) {
-//       alert("success");
-//       router.push('/');
-//       return;
-//     } else {
-//       alert('Invalid email or password');
-//     }
-//   }
-// // };
+

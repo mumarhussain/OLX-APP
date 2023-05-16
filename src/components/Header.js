@@ -8,14 +8,14 @@ import { BiLogOut } from "react-icons/bi";
 import Image from "next/image";
 import img from "../assets/OLX_2019.svg.png";
 import img2 from "../assets/OLX-Symbol.png";
-import avatar from "../assets/avatar.png";
-import { useState } from "react";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "@/store/slice/Userslice";
 function Header() {
-  const [Open, setOpen] = useState(false);
-  const toggleMenu = () => {
-    setOpen(!Open);
-  };
+  const dispatch = useDispatch()
+  const handleLogout = ()=>{
+   dispatch(logoutUser())
+  }
   return (
     <header className="bg-[#F7F8F8] min-w-full  pb-3 fixed top-0 right-0 left-0">
       <div className="flex justify-evenly items-center space-x-3 py-5 md:justify-start md:space-x-6 md: mx-8">
@@ -46,29 +46,6 @@ function Header() {
           />
           <BiSearch className="border-2 border-black w-9 rounded-r-md h-11 text-white bg-black" />
         </div>
-        <div className="dropdown md:hidden">
-          <BsChevronDown onClick={toggleMenu} className="" />
-          {Open && (
-            <ul className="menu-list">
-              <li>
-                <Link href="/message">
-                  <BiMessageRounded />
-                </Link>
-              </li>
-              <li>
-                <Link href="/notification">
-                  <BsBell />
-                </Link>
-              </li>
-              <li>
-                <Link href="/login">
-                  {" "}
-                  <Image src={avatar} height={30} width={30} alt="image" />
-                </Link>
-              </li>
-            </ul>
-          )}
-        </div>
         <div className="md:flex md:items-center hidden ">
           <ul className="flex flex-row items-center text-2xl space-x-5 mr-5">
             <li>
@@ -82,19 +59,7 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/login">
-                {" "}
-                <Image
-                  src={avatar}
-                  className="rounded-full"
-                  height={35}
-                  width={35}
-                  alt="image"
-                />
-              </Link>
-            </li>
-            <li>
-              <Link href="/login">
+              <Link onClick={handleLogout} href="/login">
                 <BiLogOut />
               </Link>
             </li>

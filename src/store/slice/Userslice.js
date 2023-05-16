@@ -31,7 +31,9 @@ const userSlice = createSlice({
     },
     loginUser(state, action) {
       state.loginUser = action.payload
-      // console.log(state.loginUser ,"login");
+
+    },logoutUser(state) {
+      state.loginUser = {}
 
     },
     signUpUser(state, action) {
@@ -42,5 +44,5 @@ const userSlice = createSlice({
   },
 });
    
-export const { addUser,deleteUser,editUser, loginUser, signUpUser } = userSlice.actions;
+export const { addUser,deleteUser,editUser, loginUser, signUpUser , logoutUser} = userSlice.actions;
 export const userReducer = userSlice.reducer;

@@ -12,7 +12,7 @@ function formsData() {
   const userData = useSelector((state) =>
     state.user.dataForm.find((userData) => userData.id == queryId)
   );
-  const login = useSelector((state) =>state.user.loginUser);
+  const login = useSelector((state) => state.user.loginUser);
   const id = userData ? userData.id : Math.floor(Math.random() * 1000000);
   const [details, setDetails] = useState();
 
@@ -40,26 +40,25 @@ function formsData() {
   const handleClick = (event) => {
     event.preventDefault();
     if (
-      details.adtitle !== "" ||
-      details.description !== "" ||
-      details.price !== "" ||
-      details.name !== "" ||
-      details.address !== "" ||
-      details.number !== "" ||
-      details.image !== "" ||
-      details.id !== ""||
-      details.userId !== ""
+      details.adtitle === "" ||
+      details.description === "" ||
+      details.price === "" ||
+      details.name === "" ||
+      details.address === "" ||
+      details.number === "" ||
+      details.image === "" ||
+      details.id === "" ||
+      details.userId === ""
     ) {
-      if (userData) {
-        dispatch(editUser(details));
-      } else {
-        dispatch(addUser(details));
-      }
-      router.push("/");
-    } else {
       alert("Please fill out all the fields");
+    } else if (userData) {
+      dispatch(editUser(details));
+    } else {
+      dispatch(addUser(details));
+      router.push("/");
     }
   };
+  
   const handleUpdate = (event) => {
     event.preventDefault();
     dispatch(
@@ -106,6 +105,7 @@ function formsData() {
               className="px-4 w-[95%] border-2 border-gray-700 py-4 rounded outline-none flex justify-center mx-auto "
               id="description"
               name="description"
+              minLength={8}
               value={details?.description}
               onChange={handleChange}
               required
@@ -191,8 +191,13 @@ function formsData() {
             className="bg-green-950 border-none text-white font-bold rounded mx-9 my-7 px-2 py-3"
             onClick={queryId === "new" ? handleClick : handleUpdate}
           >
-            {/* {console.log(queryId, "id")} */}
-            <Link href="/"> Post now </Link>
+            <div>
+              {queryId === "new" ? (
+                <Link href="/">Post now</Link>
+              ) : (
+                <Link href="/">Update</Link>
+              )}
+            </div>
           </button>
         </form>
       </div>
