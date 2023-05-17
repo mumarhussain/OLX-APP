@@ -40,7 +40,7 @@ function Herosection() {
         {data.map((item,index) => {
           // console.log(userId, "asdasdasd", item.userId)
           return (
-            <Product index={index} userId={userId} handleClick={handleClick} item={item} handleEdit={handleEdit} handleDelete={handleDelete} />
+            <Product key={index} userId={userId} handleClick={handleClick} item={item} handleEdit={handleEdit} handleDelete={handleDelete} />
           )
         })}
       </div>
