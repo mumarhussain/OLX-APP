@@ -1,11 +1,12 @@
-import Header from "../../../components/Header";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { addUser, editUser, loginUser } from "../../../store/slice/Userslice";
+import React,{ useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 
-function formsData() {
+import Header from "../../../components/Header";
+import { addUser, editUser } from "../../../store/slice/Userslice";
+
+function FormsData() {
   const dispatch = useDispatch();
   const router = useRouter();
   const queryId = router.query.id;
@@ -204,4 +205,4 @@ function formsData() {
     </>
   );
 }
-export default formsData;
+export default FormsData;
