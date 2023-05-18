@@ -2,9 +2,10 @@ import React,{ useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-
 import Header from "../../../components/Header";
-import { addUser, editUser } from "../../../store/slice/Userslice";
+import { addUser, editUser, loginUser } from "../../../store/slice/Userslice";
+import { db } from "@/config/firebase";
+import { collection, addDoc } from "firebase/firestore"
 
 function FormsData() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function FormsData() {
   const userData = useSelector((state) =>
     state.user.dataForm.find((userData) => userData.id == queryId)
   );
+ 
   const login = useSelector((state) => state.user.loginUser);
   const id = userData ? userData.id : Math.floor(Math.random() * 1000000);
   const [details, setDetails] = useState();
@@ -38,7 +40,7 @@ function FormsData() {
     });
   };
 
-  const handleClick = (event) => {
+  const handleClick = async (event) => {
     event.preventDefault();
     if (
       details.adtitle === "" ||
@@ -52,14 +54,21 @@ function FormsData() {
       details.userId === ""
     ) {
       alert("Please fill out all the fields");
-    } else if (userData) {
-      dispatch(editUser(details));
-    } else {
-      dispatch(addUser(details));
-      router.push("/");
+    } try {
+      await addDoc(collection(db, "users"), login);
+      
+    } catch (error) {
+      console.log(error, "error");
     }
+    
+    // else {
+    //   dispatch(addUser(details));
+    //   router.push("/");
+    // }
+    console.log(login, "user");
   };
   
+
   const handleUpdate = (event) => {
     event.preventDefault();
     dispatch(

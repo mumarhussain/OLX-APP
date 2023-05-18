@@ -5,7 +5,6 @@ function ProtectedRoute ({MyComponent}) {
     const checkUser = useSelector(state => (state.user.loginUser))
     const router = useRouter();
 
-    console.log(checkUser, "checkData");
     if(!checkUser || Object.keys(checkUser).length === 0){
         router.push('/login')
     }else{
