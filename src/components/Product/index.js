@@ -6,8 +6,7 @@ import { BsThreeDots } from 'react-icons/bs'
 function Product({handleClick,item,handleEdit,handleDelete,userId,index}) {
   const [isOpen, setIsOpen] = useState(false);
   const handleDropdown = (id) => {
-    console.log(id, "id");
-     setIsOpen(!isOpen)
+      setIsOpen(!isOpen)
  
      
    };

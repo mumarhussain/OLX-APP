@@ -14,7 +14,7 @@ function FormsData() {
   const userData = useSelector((state) =>
     state.user.dataForm.find((userData) => userData.id == queryId)
   );
- 
+  const forms = useSelector((state)=>state.user.dataForm)
   const login = useSelector((state) => state.user.loginUser);
   const id = userData ? userData.id : Math.floor(Math.random() * 1000000);
   const [details, setDetails] = useState();
@@ -54,18 +54,16 @@ function FormsData() {
       details.userId === ""
     ) {
       alert("Please fill out all the fields");
-    } try {
-      await addDoc(collection(db, "users"), login);
-      
+    } else {
+      dispatch(addUser(details));
+      router.push("/");
+    } 
+    try {
+      // await addDoc(collection(db, "users"), login);
+      await addDoc(collection(db, "formData"), {forms});
     } catch (error) {
       console.log(error, "error");
     }
-    
-    // else {
-    //   dispatch(addUser(details));
-    //   router.push("/");
-    // }
-    console.log(login, "user");
   };
   
 
@@ -79,6 +77,91 @@ function FormsData() {
     );
     router.push("/");
   };
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import Link from "next/link";
+// import { useRouter } from "next/router";
+// import { useDispatch, useSelector } from "react-redux";
+// import Header from "../../../components/Header";
+// import { addUser, editUser, loginUser } from "../../../store/slice/Userslice";
+// import { db } from "@/config/firebase";
+// import { collection, addDoc, getDocs } from "firebase/firestore";
+
+// function FormsData() {
+//   const dispatch = useDispatch();
+//   const router = useRouter();
+//   const queryId = router.query.id;
+//   const userData = useSelector((state) =>
+//     state.user.dataForm.find((userData) => userData.id == queryId)
+//   );
+//   const forms = useSelector((state) => state.user.dataForm);
+//   const login = useSelector((state) => state.user.loginUser);
+//   const id = userData ? userData.id : Math.floor(Math.random() * 1000000);
+//   const [details, setDetails] = useState();
+
+//   useEffect(() => {
+//     setDetails({
+//       adtitle: userData ? userData.adtitle : "",
+//       description: userData ? userData.description : "",
+//       price: userData ? userData.price : "",
+//       name: userData ? userData.name : "",
+//       address: userData ? userData.address : "",
+//       number: userData ? userData.number : "",
+//       id: id,
+//       userId: login?.id,
+//       image: userData ? userData.image : "",
+//       createdAt: userData ? userData.createdAt : new Date().toString(),
+//     });
+//   }, [userData]);
+
+  
+
+//   const handleChange = (event) => {
+//     const { name, value } = event.target;
+//     setDetails((prev) => {
+//       return { ...prev, [name]: value };
+//     });
+//   };
+
+//   const handleClick = async (event) => {
+//     event.preventDefault();
+//     if (
+//       details.adtitle === "" ||
+//       details.description === "" ||
+//       details.price === "" ||
+//       details.name === "" ||
+//       details.address === "" ||
+//       details.number === "" ||
+//       details.image === "" ||
+//       details.id === "" ||
+//       details.userId === ""
+//     ) {
+//       alert("Please fill out all the fields");
+//     } else {
+//       dispatch(addUser(details));
+//       router.push("/");
+//     }
+//     try {
+//       await addDoc(collection(db, "formData"), { forms });
+//     } catch (error) {
+//       console.log(error, "error");
+//     }
+//   };
+
+//   const handleUpdate = (event) => {
+//     event.preventDefault();
+//     dispatch(
+//       editUser({
+//         ...details,
+//         id: queryId,
+//       })
+//     );
+//     router.push("/");
+//   };
+
   return (
     <>
       <div className="bg-white ">

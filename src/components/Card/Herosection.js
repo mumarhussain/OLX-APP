@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "@/config/firebase";
 import { deleteUser } from "../../store/slice/Userslice";
+import { collection, getDocs } from "firebase/firestore";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Card1 from "./Card1";
 import dayjs from "dayjs";
@@ -12,7 +14,7 @@ dayjs.extend(relativeTime);
 function Herosection() {
   const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [fetchData, setFetchData] = useState([]); 
   const data = useSelector((state) => state.user.dataForm);
   const login = useSelector((state) => state.user.loginUser);
   const user = useSelector((state) => state.user.userData);
@@ -27,6 +29,24 @@ function Herosection() {
   const handleEdit = (id) => {
     setSelectedItem(id);
   };
+  // console.log(fetchData, "setFetchData");
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const snapShot = await getDocs(collection(db, "formData"));
+        const fetchedData = snapShot.docs.map((doc) =>{
+          if("forms" in doc.data())
+          setFetchData(doc.data().forms);
+
+          });
+      } catch (error) {
+        console.log(error, "error");
+      }
+    };
+
+    fetchForms();
+  }, []);
   return (<>
     <Navbar className=""/>
     <div className="bg-white">
@@ -37,8 +57,7 @@ function Herosection() {
         <Card1 />
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-around space-x-2 mx-3  ">
-        {data.map((item,index) => {
-          // console.log(userId, "asdasdasd", item.userId)
+        {fetchData.map((item,index) => {
           return (
             <Product key={index} userId={userId} handleClick={handleClick} item={item} handleEdit={handleEdit} handleDelete={handleDelete} />
           )
