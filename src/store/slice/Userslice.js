@@ -17,7 +17,6 @@ const userSlice = createSlice({
       state.dataForm = state.dataForm.filter((item) => item.id !== id)
     },
     editUser(state, action) {
-      console.log(action.payload);
       const id = action.payload.id;
       state.dataForm = state.dataForm.map((item) => {
         if (item.id == id) {

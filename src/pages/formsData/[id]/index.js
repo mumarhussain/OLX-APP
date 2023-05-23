@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../components/Header";
 import { addUser, editUser, loginUser } from "../../../store/slice/Userslice";
-import { db } from "@/config/firebase";
+import { db } from "../../../config/firebase";
 import { collection, addDoc, doc, setDoc } from "firebase/firestore"
 
 function FormsData() {
@@ -13,7 +13,8 @@ function FormsData() {
   const queryId = router.query.id;
   const userData = useSelector((state) =>
     state.user.dataForm.find((userData) => userData.id == queryId)
-  );
+    );
+    console.log(userData, "userData",queryId);
   const login = useSelector((state) => state.user.loginUser);
   const id = userData ? userData.id : Math.floor(Math.random() * 1000000);
   const [details, setDetails] = useState();
@@ -30,7 +31,7 @@ function FormsData() {
       image: userData ? userData.image : "",
       createdAt: userData ? userData.createdAt : new Date().toString(),
     });
-  }, [userData]);
+  }, [userData, queryId]);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setDetails((prev) => {
@@ -64,7 +65,6 @@ function FormsData() {
         ...myDet,
         id: data.id
       })
-      console.log("sadasdasda", allData)
     } catch (error) {
       console.log(error, "error");
     }
@@ -73,13 +73,14 @@ function FormsData() {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    dispatch(
-      editUser({
-        ...details,
-        id: queryId,
-      })
-    );
-    router.push("/",details);
+    // dispatch(
+    //   editUser({
+    //     ...details,
+    //     id: id,
+    //   })
+    // );
+
+    router.push("/");
   };
 
   return (

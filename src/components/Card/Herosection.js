@@ -12,7 +12,6 @@ import Navbar from "../Navbar";
 dayjs.extend(relativeTime);
 
 function Herosection() {
-  const [selectedItem, setSelectedItem] = useState(null);
   const [fetchData, setFetchData] = useState([]);
   const login = useSelector((state) => state.user.loginUser);
   const user = useSelector((state) => state.user.userData);
@@ -21,19 +20,28 @@ function Herosection() {
   const handleClick = (id) => {};
 
   const handleDelete = async (id) => {
-  await  deleteDoc(doc(db, "formData",id));
+    try{
+
+      await  deleteDoc(doc(db, "formData",id));
+    }catch(e) {
+      console.log(e, "error");
+    }
   };
 
   const handleEdit = async (id) => {
-    const updataData = doc(db, "formData", id)
-    await updateDoc(updataData , {
-      id,
-      
-      
-    })
-    setSelectedItem(id);
+    try{
+      const updateDataRef = doc(db, "formData", id);
+      await updateDoc(updateDataRef, {
+        id: id,
+      });
 
+      console.log(id, "id");
+    }
+    catch(e){
+      console.log(e , "Error");
+    }
   };
+  
   useEffect(() => {
     const fetchForms = async () => {
       try {
@@ -42,7 +50,7 @@ function Herosection() {
           return doc.data()
         });
         setFetchData(fetchedDatas);
-        console.log("fetchData", fetchedDatas);
+        console.log("fetchDatas", fetchedDatas);
       } catch (error) {
         console.log(error, "error");
       }
@@ -61,7 +69,8 @@ function Herosection() {
           <Card1 />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-around space-x-2 mx-3  ">
-          {fetchData.map((item, index) => {
+          {fetchData?.map((item, index) => {
+            console.log(item.id, "itemid");
             return (
               <Product
                 key={index}
